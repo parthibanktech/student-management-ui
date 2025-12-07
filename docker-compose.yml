@@ -6,4 +6,10 @@ services:
     container_name: sms-frontend
     ports:
       - "80:80"
+    networks:
+      - microservices-net
     restart: always
+
+networks:
+  microservices-net:
+    external: true
