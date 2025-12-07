@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: parthibanktech3/student-management-frontend:latest
+    container_name: sms-frontend
+    ports:
+      - "80:80"
+    restart: always

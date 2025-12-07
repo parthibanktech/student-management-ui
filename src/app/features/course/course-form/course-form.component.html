@@ -1,0 +1,70 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white border border-[#e0e0e0] shadow-sm">
+        <div class="p-6 border-b border-[#e0e0e0] bg-[#f4f4f4]">
+            <h2 class="text-xl font-semibold text-[#161616]">Add New Course</h2>
+            <p class="text-sm text-[#525252] mt-1">Enter the details for the new course</p>
+        </div>
+
+        <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="p-6 space-y-6">
+            <!-- Title -->
+            <div class="space-y-2">
+                <label for="title" class="bx--label">Course Title</label>
+                <input type="text" id="title" formControlName="title" class="bx--text-input"
+                    [class.border-[#da1e28]]="courseForm.get('title')?.invalid && courseForm.get('title')?.touched"
+                    placeholder="e.g., Introduction to Computer Science">
+                <div *ngIf="courseForm.get('title')?.invalid && courseForm.get('title')?.touched"
+                    class="text-sm text-[#da1e28] mt-1">
+                    <span *ngIf="courseForm.get('title')?.errors?.['required']">Title is required</span>
+                    <span *ngIf="courseForm.get('title')?.errors?.['minlength']">Title must be at least 3
+                        characters</span>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="space-y-2">
+                <label for="description" class="bx--label">Description</label>
+                <textarea id="description" formControlName="description" rows="4" class="bx--text-input"
+                    [class.border-[#da1e28]]="courseForm.get('description')?.invalid && courseForm.get('description')?.touched"
+                    placeholder="Enter course description..."></textarea>
+                <div *ngIf="courseForm.get('description')?.invalid && courseForm.get('description')?.touched"
+                    class="text-sm text-[#da1e28] mt-1">
+                    <span *ngIf="courseForm.get('description')?.errors?.['required']">Description is required</span>
+                    <span *ngIf="courseForm.get('description')?.errors?.['minlength']">Description must be at least 10
+                        characters</span>
+                </div>
+            </div>
+
+            <!-- Credits -->
+            <div class="space-y-2">
+                <label for="credits" class="bx--label">Credits</label>
+                <input type="number" id="credits" formControlName="credits" class="bx--text-input"
+                    [class.border-[#da1e28]]="courseForm.get('credits')?.invalid && courseForm.get('credits')?.touched">
+                <div *ngIf="courseForm.get('credits')?.invalid && courseForm.get('credits')?.touched"
+                    class="text-sm text-[#da1e28] mt-1">
+                    <span *ngIf="courseForm.get('credits')?.errors?.['required']">Credits are required</span>
+                    <span *ngIf="courseForm.get('credits')?.errors?.['min']">Minimum 1 credit</span>
+                    <span *ngIf="courseForm.get('credits')?.errors?.['max']">Maximum 10 credits</span>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="error" class="p-4 bg-[#fff1f1] text-[#da1e28] border-l-4 border-[#da1e28] text-sm font-medium">
+                {{ error }}
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-end gap-4 pt-6 border-t border-[#e0e0e0]">
+                <button type="button" (click)="onCancel()"
+                    class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#f4f4f4] hover:bg-[#e0e0e0] transition-colors">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="courseForm.invalid || isLoading"
+                    class="bx--btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span *ngIf="isLoading"
+                        class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+                    {{ isLoading ? 'Creating...' : 'Create Course' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

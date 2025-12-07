@@ -1,0 +1,61 @@
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-white border border-[#e0e0e0] shadow-sm">
+        <div class="p-6 border-b border-[#e0e0e0] bg-[#f4f4f4]">
+            <h2 class="text-xl font-semibold text-[#161616]">Enroll Student</h2>
+            <p class="text-sm text-[#525252] mt-1">Select a student and a course to enroll</p>
+        </div>
+
+        <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()" class="p-6 space-y-6">
+            <!-- Student Selection -->
+            <div class="space-y-2">
+                <label for="studentId" class="bx--label">Select Student</label>
+                <select id="studentId" formControlName="studentId" class="bx--text-input"
+                    [class.border-[#da1e28]]="enrollmentForm.get('studentId')?.invalid && enrollmentForm.get('studentId')?.touched">
+                    <option value="" disabled selected>Choose a student...</option>
+                    <option *ngFor="let student of students" [value]="student.id">
+                        {{ student.name }} ({{ student.email }})
+                    </option>
+                </select>
+                <div *ngIf="enrollmentForm.get('studentId')?.invalid && enrollmentForm.get('studentId')?.touched"
+                    class="text-sm text-[#da1e28] mt-1">
+                    Student is required
+                </div>
+            </div>
+
+            <!-- Course Selection -->
+            <div class="space-y-2">
+                <label for="courseId" class="bx--label">Select Course</label>
+                <select id="courseId" formControlName="courseId" class="bx--text-input"
+                    [class.border-[#da1e28]]="enrollmentForm.get('courseId')?.invalid && enrollmentForm.get('courseId')?.touched">
+                    <option value="" disabled selected>Choose a course...</option>
+                    <option *ngFor="let course of courses" [value]="course.id">
+                        {{ course.title }} ({{ course.credits }} Credits)
+                    </option>
+                </select>
+                <div *ngIf="enrollmentForm.get('courseId')?.invalid && enrollmentForm.get('courseId')?.touched"
+                    class="text-sm text-[#da1e28] mt-1">
+                    Course is required
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="error" class="p-4 bg-[#fff1f1] text-[#da1e28] border-l-4 border-[#da1e28] text-sm font-medium">
+                {{ error }}
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-end gap-4 pt-6 border-t border-[#e0e0e0]">
+                <button type="button" (click)="onCancel()"
+                    class="px-4 py-3 text-sm font-medium text-[#161616] bg-[#f4f4f4] hover:bg-[#e0e0e0] transition-colors">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="enrollmentForm.invalid || isLoading"
+                    class="bx--btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span *ngIf="isLoading"
+                        class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></span>
+                    {{ isLoading ? 'Enrolling...' : 'Enroll Student' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

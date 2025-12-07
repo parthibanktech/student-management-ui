@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    /* IBM Carbon Color Tokens */
+    --cds-interactive-01: #0f62fe;
+    --cds-interactive-01-hover: #0353e9;
+    --cds-text-01: #161616;
+    --cds-text-02: #525252;
+    --cds-ui-background: #f4f4f4;
+    --cds-ui-01: #ffffff;
+    --cds-ui-02: #e0e0e0;
+    --cds-field-01: #f4f4f4;
+    --cds-danger: #da1e28;
+    --cds-success: #24a148;
+    --cds-warning: #f1c21b;
+}
+
+body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: var(--cds-ui-background);
+    color: var(--cds-text-01);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Carbon-style Utilities */
+.bx--btn-primary {
+    @apply bg-[#0f62fe] text-white px-4 py-3 text-sm font-medium hover:bg-[#0353e9] transition-colors duration-200 flex items-center gap-2;
+}
+
+.bx--btn-danger {
+    @apply bg-[#da1e28] text-white px-4 py-3 text-sm font-medium hover:bg-[#b81922] transition-colors duration-200;
+}
+
+/* Premium Data Table Styles */
+.bx--data-table-container {
+    @apply bg-white border border-[#e0e0e0] overflow-hidden shadow-sm rounded-sm;
+}
+
+.bx--data-table-header {
+    @apply bg-[#f4f4f4] px-4 py-4 border-b border-[#e0e0e0];
+}
+
+.bx--data-table {
+    @apply w-full text-left border-collapse;
+}
+
+.bx--data-table th {
+    @apply bg-[#f4f4f4] px-4 py-4 text-xs font-bold text-[#161616] uppercase tracking-wider border-b-2 border-[#e0e0e0];
+}
+
+.bx--data-table td {
+    @apply px-4 py-4 text-sm border-b border-[#e0e0e0] text-[#161616] transition-colors duration-150;
+}
+
+.bx--data-table tr:hover td {
+    @apply bg-[#e8f0fe] text-[#161616];
+}
+
+.bx--text-input {
+    @apply w-full bg-[#f4f4f4] border-b border-[#8d8d8d] p-3 text-sm text-[#161616] focus:outline-none focus:border-[#0f62fe] transition-colors;
+}
+
+.bx--label {
+    @apply block text-xs font-medium text-[#525252] mb-1;
+}
+
+.bx--modal-container {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm;
+}
+
+.bx--modal-content {
+    @apply bg-white w-full max-w-lg shadow-2xl border border-[#e0e0e0];
+}
+
+.bx--modal-header {
+    @apply bg-[#f4f4f4] px-4 py-3 flex justify-between items-center;
+}
