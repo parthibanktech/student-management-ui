@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: '/api' // Relative path for production (served by Nginx)
+    apiUrl: '/api/v1' // Relative path with versioning
 };

@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: '/api' // Relative path to work behind Nginx in Docker
+    apiUrl: '/api/v1' // Relative path with versioning
 };
