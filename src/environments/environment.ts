@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:4000/api/v1' // Points to API Gateway
+    apiUrl: '/api' // Relative path to work behind Nginx in Docker
 };
