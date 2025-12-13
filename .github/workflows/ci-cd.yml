@@ -43,19 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # 1. Copy the frontend docker-compose.yml to EC2
-      # We put it in a separate folder 'frontend' to avoid conflicting with the backend compose file.
-      - name: Copy docker-compose to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
-          source: "docker-compose.yml"
-          target: "/home/${{ secrets.EC2_USER }}/frontend"
-          strip_components: 0
-
-      # 2. SSH into EC2 and restart the container
+      # 2. SSH into EC2 and update the frontend service in the MAIN deployment
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -63,17 +51,16 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            cd /home/${{ secrets.EC2_USER }}/frontend
+            # Navigate to the MAIN deployment directory (managed by Backend Repo)
+            cd /home/${{ secrets.EC2_USER }}/student-management-system
             
             echo "Frontend Deployment started..."
             
-            # Stop old container
-            docker-compose down || true
+            # Pull the new Frontend image (pushed in previous job)
+            docker-compose pull frontend
             
-            # Pull new image
-            docker-compose pull
+            # Restart ONLY the frontend service (and Nginx to be safe)
+            # This keeps Kafka, DB, and Backend alive!
+            docker-compose up -d --no-deps frontend nginx
             
-            # Start new container
-            docker-compose up -d
-            
-            echo "Frontend Deployment successful!"
+            echo "Frontend updated successfully within the main stack."
