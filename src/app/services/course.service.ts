@@ -6,6 +6,17 @@ import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
+/**
+ * ==========================================================================================================
+ * COURSE SERVICE (FRONTEND)
+ * ==========================================================================================================
+ * Manages the connection to the Course Microservice.
+ * 
+ * RESPONSIBILITIES:
+ * - Load/Create/Update Courses.
+ * - Manage the read-only signal 'courses' for the Course List UI.
+ * - Handle API communication errors.
+ */
 @Injectable({
     providedIn: 'root'
 })

@@ -6,6 +6,17 @@ import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
+/**
+ * ==========================================================================================================
+ * STUDENT SERVICE (FRONTEND)
+ * ==========================================================================================================
+ * Manages the state and API interactions for the Student Management module.
+ * 
+ * FEATURES:
+ * - Reactive Signals for high-performance UI updates.
+ * - Centralized Error Handling (logs to console, throws for Component handling).
+ * - Automatic Data Reloading after Mutations (Create/Update/Delete).
+ */
 @Injectable({
   providedIn: 'root'
 })
