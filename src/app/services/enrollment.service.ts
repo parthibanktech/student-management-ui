@@ -6,14 +6,31 @@ import { tap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 
+/**
+ * ============================================================================================
+ * ENROLLMENT SERVICE (FRONTEND)
+ * ============================================================================================
+ * This service handles all HTTP communication regarding student enrollments.
+ * It uses Angular Signals for state management to ensure the UI updates reactively.
+ *
+ * KEY FEATURES:
+ * - Load/Create/Delete Enrollments
+ * - Filter by Student/Course
+ * - Reactive State Management (Signal)
+ */
 @Injectable({
     providedIn: 'root'
 })
 export class EnrollmentService {
     private http = inject(HttpClient);
+    // Base URL mapping to the API Gateway (/api/v1/enrollments via Nginx)
     private baseUrl = `${environment.apiUrl}/enrollments`;
 
+    // SIGNAL: Holds the current list of enrollments.
+    // Signals provide fine-grained reactivity and are the modern standard in Angular.
     private enrollmentsSignal = signal<Enrollment[]>([]);
+
+    // Read-only public signal for components to consume
     enrollments = this.enrollmentsSignal.asReadonly();
 
     constructor() {
