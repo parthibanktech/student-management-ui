@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { tap } from 'rxjs';
 
+/**
+ * Interface representing a Payment Record.
+ * Matches the Backend DTO structure.
+ */
 export interface Payment {
     id?: number;
     enrollmentId?: number;
@@ -12,9 +16,20 @@ export interface Payment {
     courseName?: string;
     amount: number;
     paymentDate: string;
+    // Status enum matches backend Payment.PaymentStatus
     status: 'SUCCESS' | 'FAILED' | 'PENDING' | 'PAID' | 'REFUNDED';
 }
 
+/**
+ * ==========================================================================================================
+ * PAYMENT SERVICE (FRONTEND)
+ * ==========================================================================================================
+ * Manages Payment interactions.
+ * 
+ * FEATURES:
+ * - Load/Create Payments.
+ * - 'completePayment' mock trigger for the Saga.
+ */
 @Injectable({
     providedIn: 'root'
 })
