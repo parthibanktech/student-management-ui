@@ -71,10 +71,16 @@ export class EnrollmentFormComponent implements OnInit {
             const request = { studentId: Number(studentId), courseId: Number(courseId) };
 
             this.enrollmentService.enrollStudent(request).subscribe({
-                next: () => {
+                next: (response: any) => {
                     this.isLoading = false;
-                    this.toastService.success('Student enrolled successfully');
-                    this.router.navigate(['/enrollments']);
+                    if (response && response.status === 'CANCELLED') {
+                        this.error = 'Enrollment failed due to service connection issues. Please check server logs.';
+                        this.toastService.error('Enrollment failed: Backend Error');
+                        console.error('Enrollment returned CANCELLED status:', response);
+                    } else {
+                        this.toastService.success('Student enrolled successfully');
+                        this.router.navigate(['/enrollments']);
+                    }
                 },
                 error: (err) => {
                     this.isLoading = false;
@@ -86,7 +92,7 @@ export class EnrollmentFormComponent implements OnInit {
                         this.error = 'Failed to enroll student. Please try again.';
                         this.toastService.error('Failed to enroll student');
                     }
-                    console.error('Error enrolling student:', err);
+                    console.error('Error enrolling student (HTTP Error):', err);
                 }
             });
         }
