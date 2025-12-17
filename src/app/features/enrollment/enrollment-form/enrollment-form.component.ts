@@ -9,6 +9,14 @@ import { ToastService } from '../../../services/toast.service';
 import { Student } from '../../../models/student.model';
 import { Course } from '../../../models/course.model';
 
+/**
+ * Component for creating new Enrollments.
+ * 
+ * RESPONSIBILITIES:
+ * - Provides a form to select a Student and a Course.
+ * - Submits the enrollment request to the Backend.
+ * - Handles the crucial 'CANCELLED' status check (Saga failure handling).
+ */
 @Component({
     selector: 'app-enrollment-form',
     standalone: true,
@@ -17,9 +25,14 @@ import { Course } from '../../../models/course.model';
     styleUrls: ['./enrollment-form.component.css']
 })
 export class EnrollmentFormComponent implements OnInit {
+    // FORM: Reactive form group for validation
     enrollmentForm: FormGroup;
+
+    // STATE: Lists for dropdown selection
     students: Student[] = [];
     courses: Course[] = [];
+
+    // UI FLAGS: Loading state and Error messages
     isLoading = false;
     error = '';
 
@@ -62,6 +75,15 @@ export class EnrollmentFormComponent implements OnInit {
         });
     }
 
+    /**
+     * Submit Form.
+     * <p>
+     * Sends the enrollment request.
+     * CRITICAL: Checks if the response status is 'CANCELLED'.
+     * The backend returns 200 OK even if the Saga fails (for graceful degradation),
+     * so we must manually check the status field.
+     * </p>
+     */
     onSubmit(): void {
         if (this.enrollmentForm.valid) {
             this.isLoading = true;
@@ -73,11 +95,13 @@ export class EnrollmentFormComponent implements OnInit {
             this.enrollmentService.enrollStudent(request).subscribe({
                 next: (response: any) => {
                     this.isLoading = false;
+                    // CHECK: Did the Saga rollback?
                     if (response && response.status === 'CANCELLED') {
                         this.error = 'Enrollment failed due to service connection issues. Please check server logs.';
                         this.toastService.error('Enrollment failed: Backend Error');
                         console.error('Enrollment returned CANCELLED status:', response);
                     } else {
+                        // SUCCESS: Saga started successfully (PENDING)
                         this.toastService.success('Student enrolled successfully');
                         this.router.navigate(['/enrollments']);
                     }
